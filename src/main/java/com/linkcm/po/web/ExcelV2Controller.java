@@ -39,8 +39,8 @@ public class ExcelV2Controller extends BaseController {
 
         excelCtrl.addCustomToolButton("全屏显示", "fullScreen", 4);
         excelCtrl.addCustomToolButton("关闭全屏", "cancelFullScreen", 4);
-        excelCtrl.addCustomToolButton("保存文件", "saveFile", 11);
-        excelCtrl.addCustomToolButton("启动编辑", "edit", 11);
+        excelCtrl.addCustomToolButton("保存文件", "saveFile", 1);
+        excelCtrl.addCustomToolButton("启动编辑", "edit", 3);
 
         excelCtrl.setMenubar(false);
 
@@ -85,11 +85,13 @@ public class ExcelV2Controller extends BaseController {
                 return "";
             }
 
+            fileIsEditing.put(docPath, true);
+
             PageOfficeCtrl excelCtrl = this.create(request);
 
             excelCtrl.addCustomToolButton("全屏显示", "fullScreen", 4);
             excelCtrl.addCustomToolButton("关闭全屏", "cancelFullScreen", 4);
-            excelCtrl.addCustomToolButton("保存文件", "saveFile", 11);
+            excelCtrl.addCustomToolButton("保存文件", "saveFile", 1);
 
             excelCtrl.setMenubar(false);
             String docName = docPath.substring(docPath.lastIndexOf('/') + 1);

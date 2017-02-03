@@ -8,7 +8,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Excel在线浏览</title>
+    <title>Excel在线浏览V3</title>
     <style type="text/css">
         * {
             margin: 0;
@@ -24,11 +24,13 @@
 <body>
 
 <%-- 建议将 div 改成 form --%>
-<span style="font-size: 24px;align-content: center;color: blue;">${username}</span>
+
+<div>
+    执行换行操作
+    <br/><br/>
+</div>
 <div class="officeContainer" style="width: 100%;height: 100%;">
     <po:PageOfficeCtrl id="excelCtrl"/>
-    <input type="hidden" name="docName" value="${docName}"/>
-    <input type="hidden" name="docPath" value="${docPath}">
 </div>
 
 <script type="text/javascript">
@@ -46,14 +48,6 @@
     // 保存
     function saveFile() {
         document.getElementById("excelCtrl").WebSave();
-    }
-
-    function edit() {
-        var docPath = "${docPath}";
-        docPath = encodeURI(encodeURI(docPath));
-        // 将 / 替换成 %2F 或者 %252F，将 . 替换成 %2E
-        docPath = docPath.replace(/\//g, "%252F").replace(/\./g, "%2E");
-        window.location = "${pageContext.request.contextPath}/excel/v2/edit/${username}?docPath=" + docPath;
     }
 
 </script>

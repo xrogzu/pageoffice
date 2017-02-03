@@ -8,7 +8,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Excel在线浏览</title>
+    <title>Excel在线浏览V3</title>
     <style type="text/css">
         * {
             margin: 0;
@@ -53,7 +53,7 @@
         docPath = encodeURI(encodeURI(docPath));
         // 将 / 替换成 %2F 或者 %252F，将 . 替换成 %2E
         docPath = docPath.replace(/\//g, "%252F").replace(/\./g, "%2E");
-        window.location = "${pageContext.request.contextPath}/excel/v2/edit/${username}?docPath=" + docPath;
+        window.location = "${pageContext.request.contextPath}/con/prepare/edit/" + ${username};
     }
 
 </script>

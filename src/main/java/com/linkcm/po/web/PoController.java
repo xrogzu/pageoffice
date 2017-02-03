@@ -39,7 +39,7 @@ public class PoController extends BaseController {
         // 自定义工具栏
         ctrl.addCustomToolButton("全屏显示", "fullScreen", 4);
         ctrl.addCustomToolButton("关闭全屏", "cancelFullScreen", 4);
-        ctrl.addCustomToolButton("保存文件", "saveFile", 11);
+        ctrl.addCustomToolButton("保存文件", "saveFile", 1);
 
         // 页面打开之后执行 JS 函数
         ctrl.setJsFunction_AfterDocumentOpened("afterOpened");
@@ -57,7 +57,7 @@ public class PoController extends BaseController {
         return "openWord";
     }
 
-    private final String dir = "L:/usr/pageoffice/";
+    private final String dir = "F:/usr/pageoffice/";
 
     @RequestMapping(value = "/save/file", method = RequestMethod.POST)
     public void saveFile(HttpServletRequest request, HttpServletResponse response,
