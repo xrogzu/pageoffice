@@ -1,0 +1,24 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+table {
+    clear: both;
+    margin: 5px auto;
+    text-align: center;
+    width: 700px;
+    border-collapse: collapse;
+}
+
+table th {
+    padding: 3px;
+    background: url("blue.jpg") repeat-x;
+    border: 1px solid lightgray;
+}
+
+table td {
+    padding: 3px;
+    background: url("yellow.jpg") repeat-x;
+    border: 1px solid lightgray;
+}

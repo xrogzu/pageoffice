@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:annotation-config/>
+    <context:component-scan base-package="com.linkcm.po.repository,com.linkcm.po.service"/>
+
+    <context:property-placeholder file-encoding="UTF-8" location="classpath:bundle/db.properties"/>
+
+    <!-- 数据源 -->
+    <bean
+            id="dataSource"
+            class="com.alibaba.druid.pool.DruidDataSource"
+            p:url="${mysql.url}"
+            p:driverClassName="${mysql.driverClassName}"
+            p:username="${mysql.username}"
+            p:password="${mysql.password}"
+            p:minIdle="${druid.minIdle}"
+            p:maxActive="${druid.maxActive}"
+            p:testWhileIdle="${druid.testWhileIdle}"
+            p:validationQuery="${druid.validationQuery}"
+            init-method="init"
+            destroy-method="close"
+    />
+
+
+</beans>

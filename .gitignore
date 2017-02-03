@@ -1,4 +1,32 @@
+src/test/
+
 *.class
+/dist/
+/build/
+# 编译之后产生的目录
+classes/
+target/
+
+# Eclipse项目配置文件及其目录
+.project
+.classpath
+.settings/
+MAINFEST.MF
+deploy/
+
+# IDEA项目配置文件及其目录
+*.iml
+.idea/
+
+# 日志和日志目录
+*.log
+log/
+
+# maven测试文件目录
+*/src/test/
+
+# 自定义文件上传目录
+upload/
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
