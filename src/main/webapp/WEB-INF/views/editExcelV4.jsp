@@ -9,7 +9,6 @@
 <html>
 <head>
     <title>Excel在线浏览V3</title>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/jquery.js"></script>
     <style type="text/css">
         * {
             margin: 0;
@@ -33,7 +32,6 @@
 </div>
 
 <script type="text/javascript">
-    import * as $ from "../../resources/js/jquery";
 
     // 全屏
     function fullScreen() {
@@ -48,29 +46,6 @@
     // 保存
     function saveFile() {
         document.getElementById("excelCtrl").WebSave();
-    }
-
-    function edit() {
-        var docPath = "${docPath}";
-        docPath = encodeURI(encodeURI(docPath));
-        // 将 / 替换成 %2F 或者 %252F，将 . 替换成 %2E
-        docPath = docPath.replace(/\//g, "%252F").replace(/\./g, "%2E");
-        <%--window.location = "${pageContext.request.contextPath}/con/prepare/edit/" + ${username};--%>
-
-        $(function () {
-            $.ajax({
-                url: "${pageContext.request.contextPath}/excel/v4/prepare/edit/${username}?docPath=" + docPath,
-                type: "POST",
-                processData: false,
-                dataType: "json",
-                success: function (data) {
-                    if (data.error) {
-
-                    }
-                }
-            });
-        });
-
     }
 
 </script>

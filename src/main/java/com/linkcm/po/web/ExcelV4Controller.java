@@ -1,5 +1,7 @@
 package com.linkcm.po.web;
 
+import com.linkcm.po.exception.DocumentIsEditingException;
+import com.linkcm.po.exception.NoPermissionException;
 import com.linkcm.po.util.JodaUtil;
 import com.zhuozhengsoft.pageoffice.OpenModeType;
 import com.zhuozhengsoft.pageoffice.PageOfficeCtrl;
@@ -61,7 +63,7 @@ public class ExcelV4Controller extends BaseController {
         }
     }
 
-    @RequestMapping(value = "/prepare/edit/{username:\\w+}", method = RequestMethod.GET, produces = {"application/json; charset=UTF-8"})
+    @RequestMapping(value = "/prepare/edit/{username:\\w+}", method = RequestMethod.POST, produces = {"application/json; charset=UTF-8"})
     @ResponseBody
     public String prepare(HttpServletRequest request, HttpSession session,
                           @RequestParam String docPath, Model model,
@@ -87,13 +89,32 @@ public class ExcelV4Controller extends BaseController {
     }
 
     @RequestMapping(value = "/edit/{username:\\w+}", method = RequestMethod.GET)
-    public String edit(HttpServletRequest request, HttpSession session,
+    public String edit(HttpServletRequest request, HttpSession session,Model model,
                        @RequestParam String docPath, String accessToken,
                        @PathVariable("username") String username) {
         String sessionAccessToken = session.getAttribute("accessToken").toString();
         if (!StringUtils.equals(sessionAccessToken, accessToken)) {
-            throw new RuntimeException();
+            throw new DocumentIsEditingException();
         }
+        session.removeAttribute("accessToken");
+        docPath = decode(docPath);
+        String editor = fileEditing.get(docPath);
+        if (!StringUtils.equals(username, editor)) {
+            throw new NoPermissionException();
+        }
+
+        PageOfficeCtrl excelCtrl = this.create(request);
+        excelCtrl.addCustomToolButton("保存文件", "saveFile", 1);
+        excelCtrl.setMenubar(false);
+        String docName = docPath.substring(docPath.lastIndexOf('/') + 1);
+        model.addAttribute("docName", docName);
+        model.addAttribute("docPath", docPath);
+        model.addAttribute("username", username); // 当前编辑的用户名称
+
+        String documentPath = Paths.get(webPath(docPath)).toUri().toString();
+        excelCtrl.webOpen(documentPath, OpenModeType.xlsNormalEdit, username);
+
+        excelCtrl.setTagId("excelCtrl");
 
         return "editExcelV4";
 
