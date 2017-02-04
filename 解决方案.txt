@@ -10,3 +10,7 @@
 
 方式三：
 --
+默认为 readOnly
+点击编辑时先进行一步预处理，判断是否可以编辑，生成 UUID_username 作为 accessToken 存入 Session，返回 yes/no 给前端
+判断为 yes 提示直接 window.location.href = ，否则提示不可编辑。
+
