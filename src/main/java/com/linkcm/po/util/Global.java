@@ -11,6 +11,7 @@ import java.util.UUID;
 public abstract class Global {
 
     public static final String SESSION_USER_KEY = "loginUser";
+    public static final String WEB_BAK_PATH = "/office/bak";
 
     public static String uuid() {
         return UUID.randomUUID().toString().replaceAll("-", "");
@@ -18,6 +19,10 @@ public abstract class Global {
 
     public static String getSessionUserKey() {
         return SESSION_USER_KEY;
+    }
+
+    public static String getWebBakPath() {
+        return WEB_BAK_PATH;
     }
 
 }

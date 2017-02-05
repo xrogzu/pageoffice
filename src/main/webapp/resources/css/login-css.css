@@ -1,0 +1,234 @@
+body {
+    margin: 0px;
+    padding: 0px;
+    min-width: 1280px;
+}
+
+.login-box {
+    width: 100%;
+    height: 610px;
+    position: absolute;
+    top: 50%;
+    margin-top: -305px;
+    font-family: 'Microsoft Yahei';
+    font-size: 14px;
+    background: url("../img/login/login-box.jpg") no-repeat;
+}
+
+.logo {
+    position: absolute;
+    left: 0px;
+    top: -60px;
+}
+
+.logo img {
+    vertical-align: middle;
+    margin-right: 3px;
+}
+
+.logo span {
+    color: #2B3E56;
+    font-size: 36px;
+}
+
+.login-table {
+    width: 1000px;
+    margin: auto;
+    height: 610px;
+    position: relative;
+}
+
+.login-left-box {
+    float: left;
+    height: 610px;
+    width: 1000px;
+    position: relative;
+}
+
+.login-title {
+    height: 78px;
+    line-height: 78px;
+    width: 306px;
+    text-align: left;
+    color: #2476c1;
+    font-size: 24px;
+    margin: auto;
+}
+
+.login-ban {
+    height: 90px;
+    overflow: hidden;
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    -ms-transition: all 0.3s;
+    transition: all 0.3s;
+}
+
+.login-ban:before, .login-ban:after {
+    content: "";
+    width: 596px;
+    height: 5px;
+    display: inline-block;
+    background: url('../img/login/ban.png') no-repeat;
+    position: absolute;
+    z-index: 2;
+}
+
+.login-ban:before {
+    left: 10px;
+    top: 0px;
+    -webkit-animation-name: topIn;
+    -webkit-animation-duration: 1s;
+    -webkit-animation-iteration-count: 1;
+    -webkit-animation-delay: 0s;
+}
+
+.login-ban:after {
+    right: 160px;
+    bottom: 0px;
+    -webkit-animation-name: bottomIn;
+    -webkit-animation-duration: 1s;
+    -webkit-animation-iteration-count: 1;
+    -webkit-animation-delay: 0s;
+}
+
+@-webkit-keyframes topIn {
+    0% {
+        left: -200px;
+    }
+    100% {
+        left: 10px;
+    }
+}
+
+@-webkit-keyframes bottomIn {
+    0% {
+        right: -40px;
+    }
+    100% {
+        right: 160px;
+    }
+}
+
+.login-ban h1 {
+    color: #fff;
+    float: left;
+    font-size: 50px;
+    margin: 0px;
+    padding: 0;
+    margin-left: 40px;
+    margin-top: 10px;
+    opacity: 1;
+    -webkit-animation-name: fadeIn;
+    -webkit-animation-duration: 3s;
+    -webkit-animation-iteration-count: 1;
+    -webkit-animation-delay: 0.6s;
+}
+
+.login-ban h1:first-child {
+    margin-left: 94px;
+}
+
+@-webkit-keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.login-right-box {
+    height: 330px;
+    width: 360px;
+    position: absolute;
+    right: 0px;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+    z-index: 3;
+    background: rgba(255, 255, 255, 1);
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+
+.login-button1 {
+    background: #2476c1;
+    color: #fff;
+    width: 306px;
+    height: 40px;
+    border: 0;
+    cursor: pointer;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+
+.login-button1:hover {
+    background: #1b6191;
+}
+
+.input {
+    width: 280px;
+    height: 45px;
+    line-height: 45px;
+    padding-left: 25px;
+    margin: auto;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #a3a5ac;
+    color: #525459;
+}
+
+.user.input {
+    background: url("../img/login/user.png") no-repeat left center;
+}
+
+.password.input {
+    background: url("../img/login/password.png") no-repeat left center;
+}
+
+.input input {
+    margin-left: 10px;
+    height: 40px;
+    background-color: none;
+    background: none;
+    border: none;
+    outline: medium;
+    width: 218px;
+}
+
+input {
+    font-family: 'Microsoft Yahei';
+}
+
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px white inset;
+}
+
+.footer {
+    position: absolute;
+    width: 100%;
+    left: 0px;
+    bottom: -27px;
+    color: #5c6168;
+    text-align: center;
+}
+
+.footer span {
+    margin: 0px 10px;
+}
+
+#message {
+    width: 100%;
+    text-align: center;
+    color: red;
+    height: 30px;
+    line-height: 30px;
+}

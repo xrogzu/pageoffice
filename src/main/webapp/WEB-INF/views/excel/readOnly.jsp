@@ -14,7 +14,8 @@
 <body>
 
 <%-- 建议将 div 改成 form --%>
-<span style="font-size: 24px;align-content: center;color: blue;float: right;">欢迎您！${loginUser.nickname}
+<span style="font-size: 24px;align-content: center;color: blue;float: right;">
+    <%--欢迎您！${loginUser.nickname}--%>
     <a href="${pageContext.request.contextPath}/logout">登出</a></span>
 <div class="officeContainer" style="width: 100%;height: 100%;">
     <po:PageOfficeCtrl id="excelCtrl"/>

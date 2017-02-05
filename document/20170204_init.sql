@@ -48,7 +48,7 @@ CREATE TABLE doc_history (
 
 
 INSERT INTO users VALUES ('a2d8c63e79d84459a648e2c370c0db1e', 'JunbinZhong', '钟俊滨', '!@#123');
-INSERT INTO users VALUES ('a3c5b1fc2c2c4fa3ba6e17051ec0f148', 'admin', '狗管理', '123456');
+INSERT INTO users VALUES ('a3c5b1fc2c2c4fa3ba6e17051ec0f148', 'admin', '管理员', '123456');
 INSERT INTO users VALUES ('53f7ee732b3b419eba0e29291866f1d7', 'Rowling', '罗琳', '123456');
 INSERT INTO users VALUES ('65b2b3cad9e54691b2776d48f2775af5', 'Jilin', '吉林', '123456');
 INSERT INTO users VALUES ('c8b23feaa5284e67a5d4d2404e484324', 'Jerkin', 'jerkin', '123456');

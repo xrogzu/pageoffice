@@ -28,7 +28,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.concurrent.ConcurrentHashMap;
+
+import static com.linkcm.po.util.DocEditor.getEditor;
 
 /**
  * @author : Zhong Junbin
@@ -88,9 +89,44 @@ public class IndexController extends BaseController {
         return "excel/readOnly";
     }
 
-    /**
-     * 写操作使用锁，并且这把锁将是全局锁，文档写状态保存在全局的 {@link ConcurrentHashMap} 中
-     */
+    @RequestMapping(value = "/edit", method = RequestMethod.GET)
+    public String edit(@ModelAttribute(Global.SESSION_USER_KEY) User user, Model model,
+                       HttpServletRequest request, HttpServletResponse response) {
+        if (user == null) {
+            // 用户为空，跳转到 index 进行逻辑处理
+            return "redirect:/index";
+        }
+        Doc doc = user.getDoc();
+
+        DocEditor.LOCK.lock();
+        try {
+            String editor = getEditor(doc.getDocPath());
+            if (editor == null) {
+                DocEditor.markDocEditingStatus(doc.getDocPath(), user.getUsername());
+            }
+        } finally {
+            DocEditor.LOCK.unlock();
+        }
+
+        if (!doc.isEditable()) { // 该用户对该文档不可编辑，直接重定向到只读页面
+            return "redirect:/index/read/only";
+        }
+
+        PageOfficeCtrl excelCtrl = this.create(request);
+
+        excelCtrl.addCustomToolButton("全屏显示", "fullScreen", 4);
+        excelCtrl.addCustomToolButton("关闭全屏", "cancelFullScreen", 4);
+        excelCtrl.addCustomToolButton("保存文件", "saveFile", 1);
+
+        String documentPath = Paths.get(webPath(doc.getDocPath())).toUri().toString();
+        excelCtrl.webOpen(documentPath, OpenModeType.xlsNormalEdit, user.getUsername());
+
+        excelCtrl.setTagId("excelCtrl");
+        return "excel/edit";
+    }
+
+/*
+    // 写操作使用锁，并且这把锁将是全局锁，文档写状态保存在全局的 {@link ConcurrentHashMap} 中
     @RequestMapping(value = "/edit", method = RequestMethod.GET)
     public String edit(@ModelAttribute(Global.SESSION_USER_KEY) User user, Model model,
                        HttpServletRequest request, HttpServletResponse response) {
@@ -115,7 +151,7 @@ public class IndexController extends BaseController {
             DocEditor.LOCK.unlock();
         }
 
-        if (!doc.isEditable()) { // 文档不可编辑，直接重定向到只读页面
+        if (!doc.isEditable()) { // 该用户对该文档不可编辑，直接重定向到只读页面
             return "redirect:/index/read/only";
         }
 
@@ -131,25 +167,38 @@ public class IndexController extends BaseController {
         excelCtrl.setTagId("excelCtrl");
         return "excel/edit";
     }
-
-    private static final String BAK_DIR = "L:/Code/IDEA_Code/LinkCM/pageoffice/src/main/webapp/office/bak";
+*/
 
     @RequestMapping(value = "/save/file", method = RequestMethod.POST)
     public void saveFile(@ModelAttribute(Global.SESSION_USER_KEY) User user,
                          HttpServletRequest request, HttpServletResponse response) throws IOException {
         if (user == null || !user.getDoc().isEditable()) {
             // 用户为空或者相应的文档不可编辑，直接抛出权限不足异常
-            throw new NoPermissionException();
+            throw new NoPermissionException("当前用户尚未登陆或者登陆的用户对该文档不具备可编辑的权限");
+        }
+
+        DocEditor.LOCK.lock();
+        Doc doc = user.getDoc();
+        try {
+            String editor = DocEditor.getEditor(doc.getDocPath());
+            if (!StringUtils.equals(editor, user.getUsername())) {
+                FileSaver fileSaver = new FileSaver(request, response);
+                String result = String.format("Can not save file! Because %s has already editing the file before your editing!", editor);
+                fileSaver.setCustomSaveResult(result);
+                fileSaver.close();
+                return;
+            }
+        } finally {
+            DocEditor.LOCK.unlock();
         }
 
         // 备份旧文档
-        Doc doc = user.getDoc();
         Path srcPath = Paths.get(webPath(doc.getDocPath()));
         String docName = doc.getDocName();
         int indexOfDot = docName.indexOf('.');
         String basename = docName.substring(0, indexOfDot);
         String ext = docName.substring(indexOfDot);
-        Path bakPath = Paths.get(BAK_DIR, basename + '_' + JodaUtil.timestamp() + "_bak" + ext);
+        Path bakPath = Paths.get(webPath(Global.WEB_BAK_PATH), basename + '_' + JodaUtil.timestamp() + "_bak" + ext);
         FileUtils.forceParentExists(bakPath);
         Files.copy(srcPath, bakPath, StandardCopyOption.REPLACE_EXISTING);
 
@@ -157,7 +206,12 @@ public class IndexController extends BaseController {
         docRepo.historyLog(user, DateTime.now(), bakPath.toString());
 
         // 消除文档的编辑状态
-        DocEditor.removeDocEditingStatus(doc.getDocPath());
+        DocEditor.LOCK.lock();
+        try {
+            DocEditor.removeDocEditingStatus(doc.getDocPath());
+        } finally {
+            DocEditor.LOCK.unlock();
+        }
 
         // 新文档直接覆盖
         FileSaver fileSaver = new FileSaver(request, response);

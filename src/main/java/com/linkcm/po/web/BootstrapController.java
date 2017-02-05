@@ -36,9 +36,9 @@ public class BootstrapController {
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public String login(@RequestParam String username, @RequestParam String password,
+    public String login(@RequestParam String j_username, @RequestParam String password,
                         RedirectAttributes redirectAttributes, HttpSession session) {
-        User user = userRepo.login(username, password);
+        User user = userRepo.login(j_username, password);
         if (user == null) {
             String errorMsg = "用户名/密码错误";
             redirectAttributes.addFlashAttribute(ERROR_MSG_KEY, errorMsg);
